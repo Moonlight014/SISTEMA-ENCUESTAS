@@ -5,7 +5,7 @@ $id_usuario = $_POST['id_usuario'];
 $clave = $_POST['clave'];
 include("conexion.php");
 
-$query = "SELECT * FROM usuarios WHERE email = '$id_usuario' AND clave = '$clave'";
+$query = "SELECT * FROM usuarios WHERE email = '$id_usuario' AND clave = MD5('$clave')";
 $resultado = $con->query($query);
 
 if (!$resultado) {
