@@ -1,0 +1,113 @@
+html
+body { background-color:  #E5E5E5}
+.intro {
+  height: 100%;
+}
+
+table td,
+table th {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.mask-custom {
+  background: rgba(24, 24, 16, .2);
+  border-radius: 2em;
+  backdrop-filter: blur(25px);
+  border: 2px solid rgba(255, 255, 255, 0.05);
+  background-clip: padding-box;
+  box-shadow: 10px 10px 10px rgba(46, 54, 68, 0.03);
+}
+
+.letra-blanca{
+    color: #000000;
+}
+
+.card {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    margin-bottom: 30px;
+    border-radius: 6px;
+    color: rgba(0, 0, 0, 0.87);
+    background: #fff;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.text-info {
+    color: #00bcd4;
+    font-family: monospace;
+}
+
+
+
+.rad-label {
+  display: flex;
+  align-items: center;
+
+  border-radius: 100px;
+  padding: 14px 16px;
+  margin: 10px 0;
+
+  cursor: pointer;
+  transition: .3s;
+}
+
+.rad-label:hover,
+.rad-label:focus-within {
+  background: hsla(0, 0%, 80%, .14);
+}
+
+.rad-input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  z-index: -1;
+}
+
+.rad-design {
+  width: 22px;
+  height: 22px;
+  border-radius: 100px;
+
+  background: linear-gradient(to right bottom, hsl(154, 97%, 62%), hsl(225, 97%, 62%));
+  position: relative;
+}
+
+.rad-design::before {
+  content: '';
+
+  display: inline-block;
+  width: inherit;
+  height: inherit;
+  border-radius: inherit;
+
+  background: hsl(0, 0%, 90%);
+  transform: scale(1.1);
+  transition: .3s;
+}
+
+.rad-input:checked+.rad-design::before {
+  transform: scale(0);
+}
+
+.rad-text {
+  font-family: monospace;
+  color: hsl(0, 0%, 60%);
+  margin-left: 14px;
+  letter-spacing: 3px;
+  /*text-transform: uppercase;*/
+  font-size: 18px;
+  font-weight: 900;
+  transition: .2s;
+  
+}
+
+.rad-input:checked~.rad-text {
+  color: hsl(0, 0%, 40%);
+}
+
