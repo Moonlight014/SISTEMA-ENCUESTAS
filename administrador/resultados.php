@@ -123,7 +123,9 @@
 	 
 	<script src="js/resultados2.js"></script>
 	<div class="container text-center" style="margin-bottom: 20px">
-		<a href="reporte.php" class="btn btn-primary" target="_blank">GENERAR REPORTE</a>
+		<!--<a href="reporte.php" class="btn btn-primary" target="_blank">GENERAR REPORTE</a>-->
+		<a href="export_excel.php?id=<?php echo $id_encuesta ?>" class="btn btn-success" target="_blank">EXPORTAR A EXCEL</a>
+
 		<!--<a href="reporte2.php?id_encuesta=<?php echo $id_encuesta ?>" class="btn btn-primary" target="_blank">GENERAR REPORTE2</a>-->
 	</div>
 	</div>
