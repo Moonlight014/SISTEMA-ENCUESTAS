@@ -1,7 +1,7 @@
 
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/navbar.css">
-<link rel="stylesheet" href="js/navbar.js">
+<!-- <link rel="stylesheet" href="js/navbar.js"> -->
 
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">

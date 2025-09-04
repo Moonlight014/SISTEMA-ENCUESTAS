@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <?php 
 
   date_default_timezone_set("America/Lima");
@@ -21,7 +21,8 @@
   	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   	<!-- Bootstrap CSS -->
-  	<link rel="stylesheet" href="../css/bootstrap.min.css">
+  	<!--<link rel="stylesheet" href="../css/bootstrap.min.css">-->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <!-- Favicon - FIS -->
 
     <link rel="stylesheet" href="../css/main.css">
