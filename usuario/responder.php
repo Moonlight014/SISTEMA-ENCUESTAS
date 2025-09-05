@@ -88,13 +88,13 @@
 			<?php
 					$type = $row2['id_tipo_pregunta'];
 					$limit = $row2['limite_opciones'];
-					if ($type == 1 || $type == 3) {
+					if ($type == 1) {
 						// Multiple choice with checkboxes
 						while (($row = $respuesta->fetch_assoc())) {
 			?>
 						<div class="checkbox" align="left"; style="margin-left: 5%";>
 						<label class="rad-label">
-							<input class="form-check-input rad-input" type="checkbox" name="<?php echo $row['id_pregunta'] ?>[]" value="<?php echo $row['id_opcion'] ?>" data-limit="<?php echo $limit ?>" onchange="checkLimit(this)"> 
+							<input class="form-check-input rad-input" type="checkbox" name="<?php echo $row['id_pregunta'] ?>[]" value="<?php echo $row['id_opcion'] ?>" data-limit="<?php echo $limit ?>" onchange="checkLimit(this)">
 							<div class="rad-design"></div>
     						<div class="rad-text"><?php echo $row['valor'] ?></div>
 						</label>
@@ -115,6 +115,19 @@
 			?>
 						</select>
 			<?php
+					} elseif ($type == 3) {
+						// Checkbox with limit - square style
+						while (($row = $respuesta->fetch_assoc())) {
+			?>
+						<div class="checkbox" align="left"; style="margin-left: 5%";>
+						<label class="rad-label">
+							<input class="form-check-input square-input" type="checkbox" name="<?php echo $row['id_pregunta'] ?>[]" value="<?php echo $row['id_opcion'] ?>" data-limit="<?php echo $limit ?>" onchange="checkLimit(this)">
+							<div class="square-design"></div>
+    						<div class="rad-text"><?php echo $row['valor'] ?></div>
+						</label>
+						</div>
+			<?php
+						}
 					} elseif ($type == 4) {
 						// Text
 			?>
