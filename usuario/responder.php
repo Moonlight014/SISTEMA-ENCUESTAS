@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <?php
 
   	require "../conexion.php";
@@ -29,7 +31,6 @@
 
  ?>
 
-<!DOCTYPE html>
 <html lang="es">
 <head>
 
@@ -70,7 +71,9 @@
 
 		<form action="procesar.php" method="Post" autocomplete="off">
 			<input type="hidden" name="public" value="<?php echo $public ? '1' : '0'; ?>" />
-
+			<?php if ($public): ?>
+			<input type="hidden" name="response_id" value="<?php echo $_SESSION['response_id']; ?>" />
+			<?php endif; ?>
 
 			<input type="hidden" id="id_encuesta" name="id_encuesta" value="<?php echo $id_encuesta ?>" />
 

@@ -38,12 +38,17 @@
 		<?php
 
 
-		$public = isset($_POST['public']) ? true : false;
-		$response_id = isset($_SESSION['response_id']) ? $_SESSION['response_id'] : null;
+		$public = isset($_POST['public']) && $_POST['public'] == '1';
+		$response_id = isset($_POST['response_id']) ? $_POST['response_id'] : null;
 
 		if (!$public && !isset($_SESSION['id_usuario'])) {
 			echo "Error: Usuario no autenticado.";
 			exit;
+		}
+
+		// For public surveys, generate a new unique response_id for each submission
+		if ($public) {
+			$response_id = bin2hex(random_bytes(16)); // 32 char hex string
 		}
 
 		$id_usuario = $public ? null : $_SESSION['id_usuario'];
@@ -60,6 +65,10 @@
 			if (!$public) {
 				$query6 = "INSERT INTO usuarios_encuestas (id_usuario, id_encuesta) VALUES ('$id_usuario', '$id_encuesta')";
 				$resultado6 = $con->query($query6);
+			} else {
+				// Insert into responses table for anonymous responses
+				$query_resp = "INSERT INTO responses (id_encuesta, response_id) VALUES ('$id_encuesta', '$response_id')";
+				$resultado_resp = $con->query($query_resp);
 			}
 
 			if ($row10['estado'] == '1') {

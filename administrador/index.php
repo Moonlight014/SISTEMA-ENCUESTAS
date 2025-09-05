@@ -69,7 +69,7 @@
 	            	<div id="tabla_encuestas"></div>
 	            </div>
 	            <br/>
-	            <div>
+	            <!--<div>
 	                <h5>Generar enlace público para encuestas:</h5>
 	                <ul>
 <?php
@@ -84,7 +84,7 @@ while ($row = $result->fetch_assoc()) {
 }
 ?>
 	                </ul>
-	            </div>
+	            </div>-->
 	        </div>
 	    </div>
 	</div>

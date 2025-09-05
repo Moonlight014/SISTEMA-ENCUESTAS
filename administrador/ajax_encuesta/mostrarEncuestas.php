@@ -55,6 +55,7 @@ while ($row = $resultado->fetch_assoc()) {
                         <a class="dropdown-item btn btn-secondary" href="resultados.php?id_encuesta=' . $row['id_encuesta'] . '">Resultados</a>
 
                         <a class="dropdown-item btn btn-info" href="http://localhost:8000/usuario/responder.php?id_encuesta=' . $row['id_encuesta'] . '&public=1" target="_blank">Generar Link Público</a>
+                        <a class="dropdown-item btn btn-success" href="export_excel.php?id=' . $row['id_encuesta'] . '" target="_blank">EXPORTAR A EXCEL</a>
                     </div>
                     
                 </td>
