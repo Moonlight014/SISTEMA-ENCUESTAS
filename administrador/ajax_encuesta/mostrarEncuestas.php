@@ -1,9 +1,7 @@
 <?php
 
-// Incluimos el archivo de conexión a base de datos
 include ("../../conexion.php");
 
-// Diseñamos el encabezado de la tabla
 $data = '
 
     <div class="mask d-flex align-items-center h-100">
@@ -55,6 +53,8 @@ while ($row = $resultado->fetch_assoc()) {
                         <a class="dropdown-item btn btn-secondary" href="vista_previa.php?id_encuesta=' . $row['id_encuesta'] . '">Vista Previa</a>
 
                         <a class="dropdown-item btn btn-secondary" href="resultados.php?id_encuesta=' . $row['id_encuesta'] . '">Resultados</a>
+
+                        <a class="dropdown-item btn btn-info" href="http://localhost:8000/usuario/responder.php?id_encuesta=' . $row['id_encuesta'] . '&public=1" target="_blank">Generar Link Público</a>
                     </div>
                     
                 </td>

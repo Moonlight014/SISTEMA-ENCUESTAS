@@ -1,7 +1,8 @@
 CREATE TABLE `respuestas_texto` (
   `id_respuesta` int(11) NOT NULL AUTO_INCREMENT,
   `id_pregunta` int(11) NOT NULL,
-  `id_usuario` varchar(15) NOT NULL,
+  `id_usuario` varchar(15) NULL DEFAULT NULL,
+  `response_id` varchar(36) NULL DEFAULT NULL,
   `respuesta_texto` text NOT NULL,
   PRIMARY KEY (`id_respuesta`),
   KEY `id_pregunta` (`id_pregunta`),

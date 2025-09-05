@@ -2,6 +2,8 @@
 
   	require "../conexion.php";
 
+	$public = isset($_GET['public']) ? true : false;
+
   	$id_encuesta = $_GET['id_encuesta'];
  	$query2 = "SELECT * FROM preguntas WHERE id_encuesta = '$id_encuesta'";
   	$respuesta2 = $con->query($query2);
@@ -13,6 +15,14 @@
 		WHERE preguntas.id_encuesta = '$id_encuesta'";
 	$respuesta3 = $con->query($query3);
 	$row3 = $respuesta3->fetch_assoc();
+
+	session_start();
+	if ($public) {
+		if (!isset($_SESSION['response_id'])) {
+			$_SESSION['response_id'] = bin2hex(random_bytes(16));
+		}
+	}
+
 
 
 
@@ -29,9 +39,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <!-- Bootstrap CSS -->
+  <!-- Bootstrap -->
   <link rel="stylesheet" href="../css/bootstrap.min.css">
-  <!-- Favicon - FIS -->
+  <!-- Favicon -->
   <link rel="shortcut icon" href="../imagenes/Logo-fis.png">
 
   <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
@@ -49,6 +59,7 @@
 
 	
 <?php
+    $is_public = $public;
     require '../navbar.php';
 ?>
 <div class="container">  
@@ -57,7 +68,8 @@
  		<h1 class="text-info"><?php echo $row3['titulo'] ?></h1>
  		<p><?php echo $row3['descripcion'] ?></p>
 
- 		<form action="procesar.php" method="Post" autocomplete="off">
+		<form action="procesar.php" method="Post" autocomplete="off">
+			<input type="hidden" name="public" value="<?php echo $public ? '1' : '0'; ?>" />
 
 
 			<input type="hidden" id="id_encuesta" name="id_encuesta" value="<?php echo $id_encuesta ?>" />
@@ -171,8 +183,7 @@
 
 
     
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
   <script src="../js/jquery-3.3.1.slim.min.js"></script>
   <script src="../js/popper.min.js"></script>
   <script src="../js/bootstrap.min.js"></script>

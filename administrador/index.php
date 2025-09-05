@@ -16,14 +16,10 @@
 
 </head>
 
-  	<!-- Required meta tags -->
   	<meta charset="utf-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  	<!-- Bootstrap CSS -->
-  	<!--<link rel="stylesheet" href="../css/bootstrap.min.css">-->
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <!-- Favicon - FIS -->
 
     <link rel="stylesheet" href="../css/main.css">
 
@@ -50,7 +46,6 @@
     }
 ?>
 
-	<!-- Content Section -->
 	<div class="container" style="margin-top: 30px;">
 	    <div class="row">
 	        <div class="col-md-12 row">
@@ -73,17 +68,30 @@
 	            <div class="table-responsive">
 	            	<div id="tabla_encuestas"></div>
 	            </div>
+	            <br/>
+	            <div>
+	                <h5>Generar enlace público para encuestas:</h5>
+	                <ul>
+<?php
+
+include '../conexion.php';
+$result = $con->query("SELECT id_encuesta, titulo FROM encuestas");
+while ($row = $result->fetch_assoc()) {
+    $id_encuesta = $row['id_encuesta'];
+    $titulo = htmlspecialchars($row['titulo']);
+    $public_link = "http://localhost:8000/usuario/responder.php?id_encuesta=$id_encuesta&public=1";
+    echo "<li><strong>$titulo</strong>: <a href='$public_link' target='_blank'>$public_link</a></li>";
+}
+?>
+	                </ul>
+	            </div>
 	        </div>
 	    </div>
 	</div>
   
 
 
-	<!-- /Content Section -->
 
-
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="../js/jquery-3.3.1.min.js"></script>
   <script src="../js/popper.min.js"></script>
   <script src="../js/bootstrap.min.js"></script>
@@ -92,7 +100,7 @@
 </body>
 </html>
 
-<!-- Modal Agregar Nueva Encuesta -->
+
 <div class="modal fade" id="modal_agregar" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -138,7 +146,6 @@
     </div>
 </div>
 
-<!-- Modal Modificar Producto -->
 <div class="modal fade " id="modal_modificar" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
