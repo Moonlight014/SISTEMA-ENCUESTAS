@@ -4,6 +4,8 @@ require '../vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 include '../conexion.php';
 
@@ -17,7 +19,13 @@ $sheet->setCellValue('A1', 'Encuesta Respondida');
 $sheet->setCellValue('B1', 'Pregunta');
 $sheet->setCellValue('C1', 'Respuestas');
 
+$sheet->getStyle('A1:C1')->getFont()->setBold(true);
+$sheet->getStyle('A1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+$sheet->getStyle('B1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+$sheet->getStyle('C1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+
 $row_num = 2;
+$previous_response = null;
 
 $response_sets_query = $con->query("
     SELECT DISTINCT r.response_id, p.id_encuesta
@@ -82,6 +90,30 @@ while ($response_set = $response_sets_query->fetch_assoc()) {
         $sheet->setCellValue('A' . $row_num, $response_id);
         $sheet->setCellValue('B' . $row_num, $question_title);
         $sheet->setCellValue('C' . $row_num, $combined_answers);
+
+        // Apply border styles
+        $styleArray = [
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                    'color' => ['argb' => 'FF000000'],
+                ],
+            ],
+        ];
+
+        $sheet->getStyle('A' . $row_num . ':C' . $row_num)->applyFromArray($styleArray);
+
+        // Center align columns A and B, left align column C
+        $sheet->getStyle('A' . $row_num)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('B' . $row_num)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('C' . $row_num)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+
+        // Apply thick border to the first row of a new response_id group
+        if ($previous_response !== $response_id) {
+            $sheet->getStyle('A' . $row_num . ':C' . $row_num)->getBorders()->getOutline()->setBorderStyle(Border::BORDER_THICK);
+            $previous_response = $response_id;
+        }
+
         $row_num++;
     }
 }
