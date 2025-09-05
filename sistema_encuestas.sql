@@ -155,13 +155,13 @@ CREATE TABLE `usuarios_encuestas` (
 
 
 INSERT INTO `usuarios_encuestas` (`id_usuario`, `id_encuesta`) VALUES
-('2', 1),
-('2', 2),
-('3', 2),
-('4', 2),
-('2', 3),
-('3', 3),
-('4', 3);
+(2, 1),
+(2, 2),
+(3, 2),
+(4, 2),
+(2, 3),
+(3, 3),
+(4, 3);
 
 
 
