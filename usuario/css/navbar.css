@@ -1,0 +1,12 @@
+.navbar-brand b {
+  font-family: 'Arial', sans-serif;
+  font-size: 24px;
+}
+
+.nav-link {
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #ffcc00 !important; /* Ejemplo de un color al pasar el cursor */
+}

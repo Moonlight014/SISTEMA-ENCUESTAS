@@ -76,7 +76,18 @@
   <script src="../js/popper.min.js"></script>
   <script src="../js/bootstrap.min.js"></script>
   <script src="js/preguntas.js"></script>
- 
+  <script>
+  function toggleLimitField() {
+      var type = document.getElementById('tipo_pregunta').value;
+      var limitField = document.getElementById('limit_field');
+      if (type == 1 || type == 3) {
+          limitField.style.display = 'block';
+      } else {
+          limitField.style.display = 'none';
+          document.getElementById('limite_opciones').value = '';
+      }
+  }
+  </script>
 
 </body>
 </html>
@@ -103,17 +114,24 @@
               <div class="form-group row">
                 <label for="titulo" class="col-sm-3 col-form-label">Tipo</label>
                 <div class="col-sm-9">
-                  <select name="tipo_pregunta" class="form-control">
-                  <?php 
+                  <select name="tipo_pregunta" id="tipo_pregunta" class="form-control" onchange="toggleLimitField()">
+                  <?php
+                  $respuesta3->data_seek(0); // Reset pointer
                   while ($row3 = $respuesta3->fetch_assoc()) {
                    ?>
-                    <option id="id_tipo_pregunta" value="<?php echo $row3['id_tipo_pregunta'] ?>" required><?php echo $row3['nombre'] ?></option>
-                  <?php 
+                    <option value="<?php echo $row3['id_tipo_pregunta'] ?>" required><?php echo $row3['nombre'] ?></option>
+                  <?php
                   }
                    ?>
                   </select>
                 </div>
-              </div>          
+              </div>
+              <div class="form-group row" id="limit_field" style="display:none;">
+                <label for="limite_opciones" class="col-sm-3 col-form-label">Límite de opciones</label>
+                <div class="col-sm-9">
+                  <input type="number" class="form-control" id="limite_opciones" placeholder="Número máximo de opciones seleccionables" min="1">
+                </div>
+              </div>
             </div>
 
             <div class="modal-footer">
@@ -143,7 +161,13 @@
                 <div class="col-sm-9">
                   <input type="text" class="form-control" id="modificar_titulo" placeholder="Título">
                 </div>
-              </div>           
+              </div>
+              <div class="form-group row" id="modificar_limit_field" style="display:none;">
+                <label for="modificar_limite_opciones" class="col-sm-3 col-form-label">Límite de opciones</label>
+                <div class="col-sm-9">
+                  <input type="number" class="form-control" id="modificar_limite_opciones" placeholder="Número máximo de opciones seleccionables" min="1">
+                </div>
+              </div>
             </div>
 
             <div class="modal-footer">

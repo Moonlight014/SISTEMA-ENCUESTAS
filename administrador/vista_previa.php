@@ -6,7 +6,7 @@
  	$query2 = "SELECT * FROM preguntas WHERE id_encuesta = '$id_encuesta'";
   	$respuesta2 = $con->query($query2);
 
-  	$query3 = "SELECT encuestas.titulo, encuestas.descripcion, preguntas.id_pregunta, preguntas.id_encuesta, preguntas.id_tipo_pregunta 
+  	$query3 = "SELECT encuestas.titulo, encuestas.descripcion, preguntas.id_pregunta, preguntas.id_encuesta, preguntas.id_tipo_pregunta, preguntas.limite_opciones
 		FROM preguntas
 		INNER JOIN encuestas
 		ON preguntas.id_encuesta = encuestas.id_encuesta
@@ -76,16 +76,36 @@
 			 <div class="card-header text-info"><?php echo "$i. " . $row2['titulo'] ?></div>
 			<div class="card-body card-description">
 			
-		<?php 
-			while (($row = $respuesta->fetch_assoc())) {
-
-		 ?>
-			<div class="radio" align="left"; style="margin-left: 5%";>
-		      <label><input class="form-check-input" type="radio" name="<?php echo $row['id_pregunta'] ?>" value="<?php echo $row['id_opcion'] ?>" required> <?php echo $row['valor'] ?></label>
+		<?php
+			$type = $row2['id_tipo_pregunta'];
+			if ($type == 1 || $type == 3) {
+				// Multiple choice
+				while (($row = $respuesta->fetch_assoc())) {
+		?>
+			<div class="checkbox" align="left"; style="margin-left: 5%";>
+		      <label><input class="form-check-input" type="checkbox" name="<?php echo $row['id_pregunta'] ?>[]" value="<?php echo $row['id_opcion'] ?>"> <?php echo $row['valor'] ?></label>
 		    </div>
-
-		
-		<?php 	
+		<?php
+				}
+			} elseif ($type == 2) {
+				// Select
+		?>
+			<select name="<?php echo $row2['id_pregunta'] ?>" class="form-control">
+			<option value="">Seleccione</option>
+		<?php
+				while (($row = $respuesta->fetch_assoc())) {
+		?>
+			<option value="<?php echo $row['id_opcion'] ?>"><?php echo $row['valor'] ?></option>
+		<?php
+				}
+		?>
+			</select>
+		<?php
+			} elseif ($type == 4) {
+				// Text
+		?>
+			<input type="text" name="<?php echo $row2['id_pregunta'] ?>" class="form-control" placeholder="Respuesta">
+		<?php
 			}
 			$i++;
 		?>

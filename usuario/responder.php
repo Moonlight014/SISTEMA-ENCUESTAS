@@ -6,13 +6,15 @@
  	$query2 = "SELECT * FROM preguntas WHERE id_encuesta = '$id_encuesta'";
   	$respuesta2 = $con->query($query2);
 
-  	$query3 = "SELECT encuestas.titulo, encuestas.descripcion, preguntas.id_pregunta, preguntas.id_encuesta, preguntas.id_tipo_pregunta 
+  	$query3 = "SELECT encuestas.titulo, encuestas.descripcion, preguntas.id_pregunta, preguntas.id_encuesta, preguntas.id_tipo_pregunta, preguntas.limite_opciones
 		FROM preguntas
 		INNER JOIN encuestas
 		ON preguntas.id_encuesta = encuestas.id_encuesta
 		WHERE preguntas.id_encuesta = '$id_encuesta'";
 	$respuesta3 = $con->query($query3);
 	$row3 = $respuesta3->fetch_assoc();
+
+
 
 
  ?>
@@ -83,17 +85,54 @@
 						
 					<div class="card-body card-description">
 				
-			<?php 
-					while (($row = $respuesta->fetch_assoc())) {
+			<?php
+					$type = $row2['id_tipo_pregunta'];
+					$limit = $row2['limite_opciones'];
+					if ($type == 1 || $type == 3) {
+						// Multiple choice with checkboxes
+						while (($row = $respuesta->fetch_assoc())) {
 			?>
-						<div class="radio" align="left"; style="margin-left: 5%";>
+						<div class="checkbox" align="left"; style="margin-left: 5%";>
 						<label class="rad-label">
-							<input class="form-check-input rad-input" type="radio" name="<?php echo $row['id_pregunta'] ?>" value="<?php echo $row['id_opcion'] ?>" required> 
+							<input class="form-check-input rad-input" type="checkbox" name="<?php echo $row['id_pregunta'] ?>[]" value="<?php echo $row['id_opcion'] ?>" data-limit="<?php echo $limit ?>" onchange="checkLimit(this)"> 
 							<div class="rad-design"></div>
     						<div class="rad-text"><?php echo $row['valor'] ?></div>
 						</label>
 						</div>
-			<?php 	
+			<?php
+						}
+					} elseif ($type == 2) {
+						// Select
+			?>
+						<select name="<?php echo $row2['id_pregunta'] ?>" class="form-control" required>
+						<option value="">Seleccione una opción</option>
+			<?php
+						while (($row = $respuesta->fetch_assoc())) {
+			?>
+						<option value="<?php echo $row['id_opcion'] ?>"><?php echo $row['valor'] ?></option>
+			<?php
+						}
+			?>
+						</select>
+			<?php
+					} elseif ($type == 4) {
+						// Text
+			?>
+						<input type="text" name="<?php echo $row2['id_pregunta'] ?>" class="form-control" placeholder="Ingrese su respuesta" required>
+			<?php
+					} elseif ($type == 5) {
+						// Single option (radio buttons)
+						while (($row = $respuesta->fetch_assoc())) {
+			?>
+						<div class="radio" align="left"; style="margin-left: 5%";>
+						<label class="rad-label">
+							<input class="form-check-input rad-input" type="radio" name="<?php echo $row['id_pregunta'] ?>" value="<?php echo $row['id_opcion'] ?>" required>
+							<div class="rad-design"></div>
+    						<div class="rad-text"><?php echo $row['valor'] ?></div>
+						</label>
+						</div>
+			<?php
+						}
 					}
 					$i++;
 			?>
@@ -124,6 +163,7 @@
   <script src="../js/jquery-3.3.1.slim.min.js"></script>
   <script src="../js/popper.min.js"></script>
   <script src="../js/bootstrap.min.js"></script>
+  <script src="js/limit_selection.js"></script>
 
 
 

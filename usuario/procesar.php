@@ -40,6 +40,11 @@
 		<?php
 
 
+		if (!isset($_SESSION['id_usuario'])) {
+			echo "Error: Usuario no autenticado.";
+			exit;
+		}
+
 		$id_usuario = $_SESSION['id_usuario'];
 
 		$query5 = "SELECT * FROM usuarios_encuestas WHERE id_usuario = '$id_usuario' AND id_encuesta = '$id_encuesta'";
@@ -55,27 +60,60 @@
 			$resultado6 = $con->query($query6);
 
 			if ($row10['estado'] == '1') {
-			 	for ($i = 1; $i <= 100; $i++) {
+				// Get all questions for this survey
+				$query_preguntas = "SELECT id_pregunta, id_tipo_pregunta FROM preguntas WHERE id_encuesta = '$id_encuesta'";
+				$resultado_preguntas = $con->query($query_preguntas);
 
-					if (isset($_POST[$i])) {
-						$ids[$i] = $_POST[$i];
+				while ($pregunta = $resultado_preguntas->fetch_assoc()) {
+					$id_pregunta = $pregunta['id_pregunta'];
+					$type = $pregunta['id_tipo_pregunta'];
 
-						$id = $ids[$i];
+					if (isset($_POST[$id_pregunta])) {
+						$value = $_POST[$id_pregunta];
 
-						$query2 = "SELECT id_opcion, id_pregunta, valor FROM opciones WHERE id_opcion = '$ids[$i]'";
-						$resultado2 = $con->query($query2);
-
-						if ($row2 = $resultado2->fetch_assoc()) {
-							$id_opcion = $row2['id_opcion'];
-							$query3 = "INSERT INTO resultados (id_opcion) 
-							VALUES ('$id_opcion')";
+						if ($type == 1 || $type == 3) {
+							// Multiple choice, value is array
+							if (is_array($value)) {
+								foreach ($value as $id_opcion) {
+									$query3 = "INSERT INTO resultados (id_opcion) VALUES ('$id_opcion')";
+									$resultado3 = $con->query($query3);
+									if ($resultado3) {
+										echo "Resultado ingresado<br/>";
+									} else {
+										echo "Error al ingresar resultado<br/>";
+									}
+								}
+							}
+						} elseif ($type == 2) {
+							// Single select
+							$id_opcion = $value;
+							$query3 = "INSERT INTO resultados (id_opcion) VALUES ('$id_opcion')";
 							$resultado3 = $con->query($query3);
 							if ($resultado3) {
-								echo "Resultado ingresado";
-								echo "<br/>";
-							} else { 
-								echo "Error al ingresar resultado";
-							} 
+								echo "Resultado ingresado<br/>";
+							} else {
+								echo "Error al ingresar resultado<br/>";
+							}
+						} elseif ($type == 4) {
+							// Text answer, insert into respuestas_texto table
+							$respuesta_texto = $con->real_escape_string($value);
+							$query_text = "INSERT INTO respuestas_texto (id_pregunta, id_usuario, respuesta_texto) VALUES ('$id_pregunta', '$id_usuario', '$respuesta_texto')";
+							$resultado_text = $con->query($query_text);
+							if ($resultado_text) {
+								echo "Respuesta de texto ingresada<br/>";
+							} else {
+								echo "Error al ingresar respuesta de texto<br/>";
+							}
+						} elseif ($type == 5) {
+							// Single option (radio button)
+							$id_opcion = $value;
+							$query3 = "INSERT INTO resultados (id_opcion) VALUES ('$id_opcion')";
+							$resultado3 = $con->query($query3);
+							if ($resultado3) {
+								echo "Resultado ingresado<br/>";
+							} else {
+								echo "Error al ingresar resultado<br/>";
+							}
 						}
 					}
 				}

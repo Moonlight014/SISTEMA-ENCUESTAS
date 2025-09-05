@@ -24,26 +24,56 @@ $(function() {
     mostrarPreguntas(id_encuesta); // Llamando a la función
 });
 
+// Nueva función para manejar opción única (tipo 5)
+function manejarOpcionUnica(name, selectedValue) {
+    // Desmarcar todas las opciones con el mismo nombre excepto la seleccionada
+    $('input[name="' + name + '"]').not(':checked').prop('checked', false);
+}
+
+// Modificar la función mostrarPreguntas para agregar evento change a inputs tipo radio de opción única
+function agregarEventoOpcionUnica() {
+    // Seleccionar todos los inputs radio con nombre que corresponda a preguntas tipo 5
+    $('input[type=radio]').change(function() {
+        var name = $(this).attr('name');
+        var selectedValue = $(this).val();
+        manejarOpcionUnica(name, selectedValue);
+    });
+}
+
+// Llamar a agregarEventoOpcionUnica después de cargar las preguntas
+$(document).ajaxComplete(function() {
+    agregarEventoOpcionUnica();
+});
+
 // Agregar nueva pregunta
 function agregarPregunta() {
     // Obtener los valores de los inputs
     var id_encuesta 		= $("#id_encuesta").val();
     var titulo      	 	= $("#titulo").val();
-    var id_tipo_pregunta 	= $("#id_tipo_pregunta").val();
+    var id_tipo_pregunta 	= $("#tipo_pregunta").val();
+    var limite_opciones 	= $("#limite_opciones").val();
     // Agregar encuesta con el método ajax POST
     $.post("ajax_pregunta/agregarPregunta.php",
         {
         	id_encuesta 		: id_encuesta,
             titulo      		: titulo,
-            id_tipo_pregunta 	: id_tipo_pregunta
+            id_tipo_pregunta 	: id_tipo_pregunta,
+            limite_opciones 	: limite_opciones
         },
         function (data, status) {
-            // Cerrar el modal
-            $("#modal_agregar").modal("hide");
-            // Mostrar las encuestas nuevamente
-            mostrarPreguntas(id_encuesta);
-            // Limpiar campos del modal
-            $("#titulo").val("");
+            var response = JSON.parse(data);
+            if (response.status === 'success') {
+                // Cerrar el modal
+                $("#modal_agregar").modal("hide");
+                // Mostrar las encuestas nuevamente
+                mostrarPreguntas(id_encuesta);
+                // Limpiar campos del modal
+                $("#titulo").val("");
+                $("#limite_opciones").val("");
+                alert(response.message);
+            } else {
+                alert(response.message);
+            }
         }
     ) ;
 }
@@ -71,6 +101,15 @@ function obtenerDetallesPregunta(id_pregunta) {
         var pregunta = JSON.parse(data);
         // Asignamos valores del encuesta al modal
         $("#modificar_titulo").val(pregunta.titulo);
+        $("#modificar_limite_opciones").val(pregunta.limite_opciones);
+        // Show/hide limit field based on type
+        var limitField = document.getElementById('modificar_limit_field');
+        if (pregunta.id_tipo_pregunta == 1 || pregunta.id_tipo_pregunta == 3) {
+            limitField.style.display = 'block';
+        } else {
+            limitField.style.display = 'none';
+            $("#modificar_limite_opciones").val('');
+        }
     });
     // Abrir modal de modificar
     $("#modal_modificar").modal("show");
@@ -81,17 +120,19 @@ function modificarDetallesPregunta() {
     // Obtener valores
     var titulo      = $("#modificar_titulo").val();
     var id_pregunta = $("#hidden_id_pregunta").val();
+    var limite_opciones = $("#modificar_limite_opciones").val();
 
     // Modificar detalles consultando al servidor usando ajax
     $.post("ajax_pregunta/modificarDetallesPregunta.php",
         {
             id_pregunta : id_pregunta,
-            titulo      : titulo
+            titulo      : titulo,
+            limite_opciones : limite_opciones
         },
         function (data, status) {
             // Ocultar el modal utilizando jQuery
             $("#modal_modificar").modal("hide");
-            // Volver a cargar la tabla pregunta         
+            // Volver a cargar la tabla pregunta
             var id_pregunta = $("#id_pregunta").val();
             mostrarPreguntas(id_encuesta);
         }

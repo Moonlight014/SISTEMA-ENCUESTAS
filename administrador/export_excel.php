@@ -36,6 +36,24 @@ if ($q) {
     }
 }
 
+// Add text responses from respuestas_texto table
+$q_text = $con->query("
+    SELECT
+        p.titulo AS Pregunta,
+        rt.respuesta_texto AS Respuesta
+    FROM respuestas_texto rt
+    JOIN preguntas p ON rt.id_pregunta = p.id_pregunta
+    WHERE p.id_encuesta = $survey_id
+");
+
+if ($q_text) {
+    while ($row = $q_text->fetch_assoc()) {
+        $sheet->setCellValue('A' . $row_num, $row['Pregunta']);
+        $sheet->setCellValue('B' . $row_num, $row['Respuesta']);
+        $row_num++;
+    }
+}
+
 // Lógica para autoajustar el ancho de las columnas
 // Obtiene la última columna de la hoja de cálculo
 $lastColumn = $sheet->getHighestColumn();
