@@ -49,11 +49,7 @@ while ($row = $resultado->fetch_assoc()) {
                         <button onclick="eliminarEncuesta(' . $row['id_encuesta'] . ')" class="dropdown-item btn btn-danger">Eliminar</button>
                         <button onclick="publicarEncuesta(' . $row['id_encuesta'] . ')" class="dropdown-item btn btn-primary">Publicar</button>
                         <button onclick="finalizarEncuesta(' . $row['id_encuesta'] . ')" class="dropdown-item btn btn-secondary">Finalizar</button>
-
                         <a class="dropdown-item btn btn-secondary" href="vista_previa.php?id_encuesta=' . $row['id_encuesta'] . '">Vista Previa</a>
-
-                        <a class="dropdown-item btn btn-secondary" href="resultados.php?id_encuesta=' . $row['id_encuesta'] . '">Resultados</a>
-
                         <a class="dropdown-item btn btn-info" href="http://localhost:8000/usuario/responder.php?id_encuesta=' . $row['id_encuesta'] . '&public=1" target="_blank">Generar Link Público</a>
                         <a class="dropdown-item btn btn-success" href="export_excel.php?id=' . $row['id_encuesta'] . '" target="_blank">Exportar Respuestas A Excel</a>
                     </div>

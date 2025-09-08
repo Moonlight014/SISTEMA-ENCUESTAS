@@ -141,10 +141,8 @@ CREATE TABLE `usuarios` (
 
 
 INSERT INTO `usuarios` (`id_usuario`, `clave`, `nombres`, `apellidos`, `email`, `id_tipo_usuario`) VALUES
-('1', '123', 'Miguel', 'Talizo', 'talizomiguel@talizo.com', 1),
-('2', '123', 'Rodrigo', 'Martinez', 'rodri@asd', 2),
-('3', '123', 'Ramon', 'Castillo', 'ramon@asd', 2),
-('4', '123', 'Lurin', 'Portillo', 'asd@asd', 2);
+('1', MD5('123'), 'ADMIN', 'uno', 'admin@test.com', 1),
+('2', MD5('123'), 'usuario', 'dos', 'asd@asd', 2);
 
 
 CREATE TABLE `usuarios_encuestas` (
