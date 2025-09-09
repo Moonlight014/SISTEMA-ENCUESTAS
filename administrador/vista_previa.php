@@ -2,9 +2,9 @@
 
   	require "../conexion.php";
 
-	$id_encuesta = $_GET['id_encuesta'];
+	$id_encuesta = intval($_GET['id_encuesta']);
 
-  	// Check survey status
+  	//checkear el status de la encuesta.
   	$query_status = "SELECT titulo, descripcion, estado FROM encuestas WHERE id_encuesta = '$id_encuesta'";
   	$resultado_status = $con->query($query_status);
   	$row_status = $resultado_status->fetch_assoc();
@@ -30,13 +30,13 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <!-- Required meta tags -->
+  
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <!-- Bootstrap CSS -->
+  
   <link rel="stylesheet" href="../css/bootstrap.min.css">
-  <!-- Favicon - FIS -->
+  
   <link rel="shortcut icon" href="../imagenes/Logo-fis.png">
 
 
@@ -96,7 +96,7 @@
 				$type = $row2['id_tipo_pregunta'];
 				$limit = $row2['limite_opciones'];
 				if ($type == 1) {
-					// Multiple choice with checkboxes
+					//varias opciones en checkboxes
 					while (($row = $respuesta->fetch_assoc())) {
 		?>
 					<div class="checkbox" align="left"; style="margin-left: 5%";>
@@ -109,7 +109,7 @@
 		<?php
 					}
 				} elseif ($type == 2) {
-					// Select
+					//select para la pregunta de una sola opcion
 		?>
 					<select name="<?php echo $row2['id_pregunta'] ?>" class="form-control" required>
 					<option value="">Seleccione una opción</option>
@@ -136,7 +136,7 @@
 					}
 				} elseif ($type == 4) {
 		?>
-					<input type="text" name="<?php echo $row2['id_pregunta'] ?>" class="form-control" placeholder="Ingrese su respuesta" required>
+					<input type="text" name="<?php echo $row2['id_pregunta'] ?>" class="form-control" placeholder="Ingrese su respuesta" required maxlength="500">
 		<?php
 				} elseif ($type == 5) {
 					while (($row = $respuesta->fetch_assoc())) {
@@ -170,8 +170,8 @@
 
 
     
-  	<!-- Optional JavaScript -->
-  	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  	
+  	
   	<script src="../js/jquery-3.3.1.min.js"></script>
   	<script src="../js/popper.min.js"></script>
   	<script src="../js/bootstrap.min.js"></script>

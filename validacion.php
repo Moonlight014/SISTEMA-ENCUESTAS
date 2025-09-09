@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-$id_usuario = $_POST['id_usuario'];
-$clave = $_POST['clave'];
+$id_usuario = mysqli_real_escape_string($con, $_POST['id_usuario']);
+$clave = mysqli_real_escape_string($con, $_POST['clave']);
 include("conexion.php");
 
 $query = "SELECT * FROM usuarios WHERE email = '$id_usuario' AND clave = MD5('$clave')";

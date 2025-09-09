@@ -4,7 +4,7 @@
 
 	require ('../conexion.php');
 
-	$id_encuesta = $_POST['id_encuesta'];
+	$id_encuesta = intval($_POST['id_encuesta']);
 
 	$query10 = "SELECT * FROM encuestas WHERE id_encuesta = '$id_encuesta'";
 	$resultado10 = $con->query($query10);
@@ -39,7 +39,7 @@
 
 
 		$public = isset($_POST['public']) && $_POST['public'] == '1';
-		$response_id = isset($_POST['response_id']) ? $_POST['response_id'] : null;
+		$response_id = isset($_POST['response_id']) ? mysqli_real_escape_string($con, $_POST['response_id']) : null;
 
 		if (!$public && !isset($_SESSION['id_usuario'])) {
 			echo "Error: Usuario no autenticado.";
@@ -66,7 +66,7 @@
 				$query6 = "INSERT INTO usuarios_encuestas (id_usuario, id_encuesta) VALUES ('$id_usuario', '$id_encuesta')";
 				$resultado6 = $con->query($query6);
 			} else {
-				// Insert into tabla 'responses' para usuarios públicos
+				//un insert into tabla 'responses' para usuarios públicos
 				$query_resp = "INSERT INTO responses (id_encuesta, response_id) VALUES ('$id_encuesta', '$response_id')";
 				$resultado_resp = $con->query($query_resp);
 			}
@@ -85,6 +85,7 @@
 						if ($type == 1 || $type == 3) {
 							if (is_array($value)) {
 								foreach ($value as $id_opcion) {
+									$id_opcion = intval($id_opcion);
 									$query3 = "INSERT INTO resultados (id_opcion, id_usuario, response_id) VALUES ('$id_opcion', " . ($id_usuario ? "'$id_usuario'" : "NULL") . ", " . ($response_id ? "'$response_id'" : "NULL") . ")";
 									$resultado3 = $con->query($query3);
 									if ($resultado3) {
@@ -95,7 +96,7 @@
 								}
 							}
 						} elseif ($type == 2) {
-							$id_opcion = $value;
+							$id_opcion = intval($value);
 							$query3 = "INSERT INTO resultados (id_opcion, id_usuario, response_id) VALUES ('$id_opcion', " . ($id_usuario ? "'$id_usuario'" : "NULL") . ", " . ($response_id ? "'$response_id'" : "NULL") . ")";
 							$resultado3 = $con->query($query3);
 							if ($resultado3) {
@@ -113,7 +114,7 @@
 								echo "Error al ingresar respuesta de texto<br/>";
 							}
 						} elseif ($type == 5) {
-							$id_opcion = $value;
+							$id_opcion = intval($value);
 							$query3 = "INSERT INTO resultados (id_opcion, id_usuario, response_id) VALUES ('$id_opcion', " . ($id_usuario ? "'$id_usuario'" : "NULL") . ", " . ($response_id ? "'$response_id'" : "NULL") . ")";
 							$resultado3 = $con->query($query3);
 							if ($resultado3) {

@@ -6,15 +6,15 @@
 
 	$public = isset($_GET['public']) ? true : false;
 
-  	$id_encuesta = $_GET['id_encuesta'];
+  	$id_encuesta = intval($_GET['id_encuesta']);
 
-  	// Check survey status
+  	//checkear el estado de la encuesta
   	$query_status = "SELECT titulo, descripcion, estado FROM encuestas WHERE id_encuesta = '$id_encuesta'";
   	$resultado_status = $con->query($query_status);
   	$row_status = $resultado_status->fetch_assoc();
 
   	if ($row_status['estado'] == '0') {
-  		// Survey is closed
+  		//si la encuesta está cerrada da aviso y cierra la ventana en funcion más abajo.
   		$survey_closed = true;
   	} else {
   		$survey_closed = false;
@@ -91,7 +91,7 @@
 			window.onload = function() {
 				setTimeout(function() {
 					window.close();
-				}, 3000); // delay antes de cerrar automaticamente
+				}, 3000); //un delay antes de cerrar automaticamente la página
 			};
 		</script>
 
@@ -132,7 +132,7 @@
 					$type = $row2['id_tipo_pregunta'];
 					$limit = $row2['limite_opciones'];
 					if ($type == 1) {
-						// Multiple choice with checkboxes
+						//eleccion multiple en checkboxes
 						while (($row = $respuesta->fetch_assoc())) {
 			?>
 						<div class="checkbox" align="left"; style="margin-left: 5%";>
@@ -145,7 +145,7 @@
 			<?php
 						}
 					} elseif ($type == 2) {
-						// Select
+						//select de opción única
 			?>
 						<select name="<?php echo $row2['id_pregunta'] ?>" class="form-control" required>
 						<option value="">Seleccione una opción</option>
@@ -172,7 +172,7 @@
 						}
 					} elseif ($type == 4) {
 			?>
-						<input type="text" name="<?php echo $row2['id_pregunta'] ?>" class="form-control" placeholder="Ingrese su respuesta" required>
+						<input type="text" name="<?php echo $row2['id_pregunta'] ?>" class="form-control" placeholder="Ingrese su respuesta" required maxlength="500">
 			<?php
 					} elseif ($type == 5) {
 						while (($row = $respuesta->fetch_assoc())) {
