@@ -2,18 +2,28 @@
 
   	require "../conexion.php";
 
-  	$id_encuesta = $_GET['id_encuesta'];
- 	$query2 = "SELECT * FROM preguntas WHERE id_encuesta = '$id_encuesta'";
-  	$respuesta2 = $con->query($query2);
+	$id_encuesta = $_GET['id_encuesta'];
 
-  	$query3 = "SELECT encuestas.titulo, encuestas.descripcion, preguntas.id_pregunta, preguntas.id_encuesta, preguntas.id_tipo_pregunta, preguntas.limite_opciones
-		FROM preguntas
-		INNER JOIN encuestas
-		ON preguntas.id_encuesta = encuestas.id_encuesta
-		WHERE preguntas.id_encuesta = '$id_encuesta'";
-	$respuesta3 = $con->query($query3);
-	$row3 = $respuesta3->fetch_assoc();
+  	// Check survey status
+  	$query_status = "SELECT titulo, descripcion, estado FROM encuestas WHERE id_encuesta = '$id_encuesta'";
+  	$resultado_status = $con->query($query_status);
+  	$row_status = $resultado_status->fetch_assoc();
 
+  	if ($row_status['estado'] == '0') {
+  		$survey_closed = true;
+  	} else {
+  		$survey_closed = false;
+  		$query2 = "SELECT * FROM preguntas WHERE id_encuesta = '$id_encuesta'";
+  		$respuesta2 = $con->query($query2);
+
+  		$query3 = "SELECT encuestas.titulo, encuestas.descripcion, preguntas.id_pregunta, preguntas.id_encuesta, preguntas.id_tipo_pregunta, preguntas.limite_opciones
+			FROM preguntas
+			INNER JOIN encuestas
+			ON preguntas.id_encuesta = encuestas.id_encuesta
+			WHERE preguntas.id_encuesta = '$id_encuesta'";
+		$respuesta3 = $con->query($query3);
+		$row3 = $respuesta3->fetch_assoc();
+  	}
 
  ?>
 
@@ -44,20 +54,25 @@
     require '../navbar.php';
 ?>
   	
-  	<center>
- 	<div class="container text-center">
- 		<hr /> 
- 		<h1 class="text-info"><?php echo $row3['titulo'] ?></h1>
- 		<p><?php echo $row3['descripcion'] ?></p>
- 		<form action="procesar.php" method="Post" autocomplete="off">
-
-
- 		<input type="hidden" id="id_encuesta" name="id_encuesta" value="<?php echo $id_encuesta ?>" />
-
+  	<div class="container">
+ 	<div class="container text-center" >
  		<hr />
- 		<?php
+ 		<h1 class="text-info"><?php echo $row_status['titulo'] ?></h1>
+ 		<p><?php echo $row_status['descripcion'] ?></p>
 
- 			$i = 1; 
+		<?php if ($survey_closed): ?>
+			<div class="alert alert-danger" role="alert">
+				<h4 class="alert-heading">Encuesta Cerrada</h4>
+				<p>Lo sentimos, esta encuesta ya no está disponible para responder.</p>
+			</div>
+			<br>
+			<a href="index.php" class="btn btn-danger btn-lg btn-block">Regresar</a>
+		<?php else: ?>
+		<form>
+		<hr />
+		<?php
+
+			$i = 1;
 			while (($row2 = $respuesta2->fetch_assoc())) {
 
 			$id = $row2['id_pregunta'];
@@ -66,63 +81,92 @@
 				FROM opciones
 				INNER JOIN preguntas
 				ON preguntas.id_pregunta = opciones.id_pregunta
-                WHERE preguntas.id_pregunta = $id
+				WHERE preguntas.id_pregunta = $id
 				ORDER BY opciones.id_pregunta, opciones.id_opcion";
 
 			$respuesta = $con->query($query);
 
-		 ?>
-		 	<div class="card">
-			 <div class="card-header text-info"><?php echo "$i. " . $row2['titulo'] ?></div>
-			<div class="card-body card-description">
-			
-		<?php
-			$type = $row2['id_tipo_pregunta'];
-			if ($type == 1 || $type == 3) {
-				// Multiple choice
-				while (($row = $respuesta->fetch_assoc())) {
 		?>
-			<div class="checkbox" align="left"; style="margin-left: 5%";>
-		      <label><input class="form-check-input" type="checkbox" name="<?php echo $row['id_pregunta'] ?>[]" value="<?php echo $row['id_opcion'] ?>"> <?php echo $row['valor'] ?></label>
-		    </div>
+			<div class="card" >
+				<div class="card-header text-info"><?php echo "Pregunta "."$i. " . $row2['titulo'] ?></div>
+
+				<div class="card-body card-description">
+
 		<?php
+				$type = $row2['id_tipo_pregunta'];
+				$limit = $row2['limite_opciones'];
+				if ($type == 1) {
+					// Multiple choice with checkboxes
+					while (($row = $respuesta->fetch_assoc())) {
+		?>
+					<div class="checkbox" align="left"; style="margin-left: 5%";>
+					<label class="rad-label">
+						<input class="form-check-input rad-input" type="checkbox" name="<?php echo $row['id_pregunta'] ?>[]" value="<?php echo $row['id_opcion'] ?>" data-limit="<?php echo $limit ?>" onchange="checkLimit(this)">
+						<div class="rad-design"></div>
+    					<div class="rad-text"><?php echo $row['valor'] ?></div>
+					</label>
+					</div>
+		<?php
+					}
+				} elseif ($type == 2) {
+					// Select
+		?>
+					<select name="<?php echo $row2['id_pregunta'] ?>" class="form-control" required>
+					<option value="">Seleccione una opción</option>
+		<?php
+					while (($row = $respuesta->fetch_assoc())) {
+		?>
+					<option value="<?php echo $row['id_opcion'] ?>"><?php echo $row['valor'] ?></option>
+		<?php
+					}
+		?>
+					</select>
+		<?php
+				} elseif ($type == 3) {
+					while (($row = $respuesta->fetch_assoc())) {
+		?>
+					<div class="checkbox" align="left"; style="margin-left: 5%";>
+					<label class="rad-label">
+						<input class="form-check-input square-input" type="checkbox" name="<?php echo $row['id_pregunta'] ?>[]" value="<?php echo $row['id_opcion'] ?>" data-limit="<?php echo $limit ?>" onchange="checkLimit(this)">
+						<div class="square-design"></div>
+    					<div class="rad-text"><?php echo $row['valor'] ?></div>
+					</label>
+					</div>
+		<?php
+					}
+				} elseif ($type == 4) {
+		?>
+					<input type="text" name="<?php echo $row2['id_pregunta'] ?>" class="form-control" placeholder="Ingrese su respuesta" required>
+		<?php
+				} elseif ($type == 5) {
+					while (($row = $respuesta->fetch_assoc())) {
+		?>
+					<div class="radio" align="left"; style="margin-left: 5%";>
+					<label class="rad-label">
+						<input class="form-check-input rad-input" type="radio" name="<?php echo $row['id_pregunta'] ?>" value="<?php echo $row['id_opcion'] ?>" required>
+						<div class="rad-design"></div>
+    					<div class="rad-text"><?php echo $row['valor'] ?></div>
+					</label>
+					</div>
+		<?php
+					}
 				}
-			} elseif ($type == 2) {
-				// Select
+				$i++;
 		?>
-			<select name="<?php echo $row2['id_pregunta'] ?>" class="form-control">
-			<option value="">Seleccione</option>
-		<?php
-				while (($row = $respuesta->fetch_assoc())) {
-		?>
-			<option value="<?php echo $row['id_opcion'] ?>"><?php echo $row['valor'] ?></option>
-		<?php
-				}
-		?>
-			</select>
-		<?php
-			} elseif ($type == 4) {
-				// Text
-		?>
-			<input type="text" name="<?php echo $row2['id_pregunta'] ?>" class="form-control" placeholder="Respuesta">
+				</div>
+			</div>
 		<?php
 			}
-			$i++;
 		?>
-		</div>
-		</div>
 
+		<br>
+		<br>
 
-		<?php
-		}
-		 ?>
-		 	
-		<br/>
-		<a href="index.php" class="btn btn-primary">Regresar</a>
-		
 		</form>
+		<a href="index.php" class="btn btn-danger btn-lg btn-block">Regresar</a>
+		<?php endif; ?>
  	</div>
-	</center>
+	</div>
 
 
     
@@ -131,5 +175,6 @@
   	<script src="../js/jquery-3.3.1.min.js"></script>
   	<script src="../js/popper.min.js"></script>
   	<script src="../js/bootstrap.min.js"></script>
+  	<script src="../usuario/js/limit_selection.js"></script>
 </body>
 </html>

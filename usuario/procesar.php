@@ -138,14 +138,21 @@
 		<br/>
 <?php if ($public && $row10['estado'] == '1'): ?>
 		<div id="success-message" style="color: green; font-size: 18px; font-weight: bold;">
-			¡Encuesta respondida con éxito! Cerrando pestaña...
+			¡Encuesta respondida con éxito! Cerrando pestaña en <span id="countdown">3</span>...
 		</div>
 		<script>
-
 			window.onload = function() {
-				setTimeout(function() {
-					window.close();
-				}, 2500); // delay antes de cerrar automaticamente
+				let countdownElement = document.getElementById('countdown');
+				let count = 3;
+				let interval = setInterval(function() {
+					count--;
+					if (count <= 0) {
+						clearInterval(interval);
+						window.close();
+					} else {
+						countdownElement.textContent = count;
+					}
+				}, 1000);
 			};
 		</script>
 <?php elseif (!$public): ?>
