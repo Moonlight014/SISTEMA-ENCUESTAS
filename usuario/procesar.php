@@ -127,8 +127,16 @@
 				}
 			} else {
 				?>
-				<div style='margin-top: 50px; color: #af0007; font-weight: bold; font-size: 18px;'>
-					ERROR!<br/>La encuesta se encuentra cerrada. 
+				<div style='margin-top: 50px; background: linear-gradient(135deg, #ff6b6b, #ee5a52); color: white; padding: 25px; border-radius: 15px; box-shadow: 0 8px 25px rgba(238, 90, 82, 0.3); text-align: center;'>
+					<div style="font-size: 3rem; margin-bottom: 15px;">
+						<i class="fa fa-exclamation-triangle" style="color: #ffd700;"></i>
+					</div>
+					<h3 style="font-weight: bold; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+						ERROR!
+					</h3>
+					<p style="font-size: 1.2rem; opacity: 0.9;">
+						La encuesta se encuentra cerrada.
+					</p>
 				</div>
 				<?php
 			}
@@ -138,8 +146,19 @@
 
 		<br/>
 <?php if ($public && $row10['estado'] == '1'): ?>
-		<div id="success-message" style="color: #008aaf; font-size: 18px; font-weight: bold;">
-			¡Encuesta respondida con éxito! Cerrando pestaña en <span id="countdown">3</span>...
+		<div id="success-message" style="background: linear-gradient(135deg, #4CAF50, #45a049); color: white; padding: 25px; border-radius: 15px; box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3); text-align: center; margin: 20px 0;">
+			<div style="font-size: 3rem; margin-bottom: 15px;">
+				<i class="fa fa-check-circle" style="color: #ffd700;"></i>
+			</div>
+			<h3 style="font-weight: bold; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+				¡Encuesta respondida con éxito!
+			</h3>
+			<div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; display: inline-block;">
+				<p style="font-size: 1.5rem; font-weight: bold; margin: 0;">
+					<i class="fa fa-clock-o" style="margin-right: 8px;"></i>
+					Cerrando pestaña en <span id="countdown" style="color: #ffd700; font-size: 1.8rem;">3</span>...
+				</p>
+			</div>
 		</div>
 		<script>
 			window.onload = function() {

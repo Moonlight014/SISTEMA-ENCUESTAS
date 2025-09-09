@@ -78,13 +78,22 @@
  	<div class="container text-center" >
  		<hr />
  		<h1 class="text-info"><?php echo $row_status['titulo'] ?></h1>
- 		<p><?php echo $row_status['descripcion'] ?></p>
+ 		<!--<p><?php echo $row_status['descripcion'] ?></p>-->
 
 		<?php if ($survey_closed): ?>
-			<div class="alert alert-danger" role="alert">
-				<h4 class="alert-heading">Encuesta Cerrada</h4>
-				<p>Lo sentimos, esta encuesta ya no está disponible para responder.</p>
-				<p style="font-size:20px;">Cerrando página automaticamente en <span id="countdown">3</span>...</p>
+			<div class="alert alert-danger" role="alert" style="background: linear-gradient(135deg, #ff6b6b, #ee5a52); border: none; border-radius: 15px; box-shadow: 0 8px 25px rgba(238, 90, 82, 0.3); color: white;">
+				<div style="text-align: center; padding: 20px;">
+					<h4 class="alert-heading" style="font-size: 2.5rem; font-weight: bold; margin-bottom: 15px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+						<i class="fa fa-lock" style="margin-right: 10px;"></i>Encuesta Cerrada
+					</h4>
+					<p style="font-size: 1.2rem; margin-bottom: 20px; opacity: 0.9;">Lo sentimos, esta encuesta ya no está disponible para responder.</p>
+					<div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; display: inline-block;">
+						<p style="font-size: 1.5rem; font-weight: bold; margin: 0; color: #fff;">
+							<i class="fa fa-clock-o" style="margin-right: 8px;"></i>
+							Cerrando página automaticamente en <span id="countdown" style="color: #ffd700; font-size: 1.8rem;">3</span>...
+						</p>
+					</div>
+				</div>
 			</div>
 			<script>
 
