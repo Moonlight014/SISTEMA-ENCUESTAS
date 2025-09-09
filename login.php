@@ -163,7 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             });
         });
         </script>";
-        unset($_SESSION['login_error']); // Limpia la variable de sesión para que no se muestre de nuevo
+        unset($_SESSION['login_error']); //limpia la variable de sesión para que no se muestre de nuevo
     }
     ?>
 </body>
