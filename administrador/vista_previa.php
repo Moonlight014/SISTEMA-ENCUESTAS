@@ -4,7 +4,7 @@
 
 	$id_encuesta = intval($_GET['id_encuesta']);
 
-  	//checkear el status de la encuesta.
+  	// Check survey status
   	$query_status = "SELECT titulo, descripcion, estado FROM encuestas WHERE id_encuesta = '$id_encuesta'";
   	$resultado_status = $con->query($query_status);
   	$row_status = $resultado_status->fetch_assoc();
@@ -30,13 +30,13 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  
+  <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  
+  <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="../css/bootstrap.min.css">
-  
+  <!-- Favicon - FIS -->
   <link rel="shortcut icon" href="../imagenes/Logo-fis.png">
 
 
@@ -96,7 +96,7 @@
 				$type = $row2['id_tipo_pregunta'];
 				$limit = $row2['limite_opciones'];
 				if ($type == 1) {
-					//varias opciones en checkboxes
+					// Multiple choice with checkboxes
 					while (($row = $respuesta->fetch_assoc())) {
 		?>
 					<div class="checkbox" align="left"; style="margin-left: 5%";>
@@ -109,7 +109,7 @@
 		<?php
 					}
 				} elseif ($type == 2) {
-					//select para la pregunta de una sola opcion
+					// Select
 		?>
 					<select name="<?php echo $row2['id_pregunta'] ?>" class="form-control" required>
 					<option value="">Seleccione una opción</option>
@@ -170,8 +170,8 @@
 
 
     
-  	
-  	
+  	<!-- Optional JavaScript -->
+  	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
   	<script src="../js/jquery-3.3.1.min.js"></script>
   	<script src="../js/popper.min.js"></script>
   	<script src="../js/bootstrap.min.js"></script>

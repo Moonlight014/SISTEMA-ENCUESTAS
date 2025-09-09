@@ -16,6 +16,7 @@
 
 
 <?php
+session_start();
 if (!isset($is_public) || !$is_public) {
 ?>
 <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark" style="background-color: #00B8EA;">
@@ -29,7 +30,7 @@ if (!isset($is_public) || !$is_public) {
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><b>
           <?php
-            if (isset($_SESSION['u_usuario'])) {
+            if (isset($_SESSION['u_usuario']) && isset($_SESSION['id_tipo_usuario']) && $_SESSION['id_tipo_usuario'] == '1') {
               echo "Bienvenido " . $_SESSION['u_usuario'];
             } else {
               echo "Bienvenido Usuario";

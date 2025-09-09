@@ -65,7 +65,7 @@
 	    <div class="row">
 	        <div class="col-md-12">
 	            <h4>Encuestas:</h4>
-	            <div class="table-responsive" style="max-height: 800px; overflow-y: auto;">
+	            <div class="table-responsive" style="max-height: 700px; overflow-y: auto;">
 	            	<div id="tabla_encuestas"></div>
 	            <br/>
 	            <!--<div>

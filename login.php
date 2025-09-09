@@ -3,7 +3,7 @@
 session_start();
 $error = '';
 
-//solo redirige si la sesión está activa y NO se está enviando el formulario
+// Solo redirige si la sesión está activa y NO se está enviando el formulario
 if (isset($_SESSION['u_usuario']) && isset($_SESSION['id_tipo_usuario']) && $_SERVER['REQUEST_METHOD'] !== 'POST') {
     if ($_SESSION['id_tipo_usuario'] == '1') {
         header("Location: administrador/index.php");
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     include("conexion.php");
     $id_usuario = mysqli_real_escape_string($con, $_POST['id_usuario']);
     if (!filter_var($id_usuario, FILTER_VALIDATE_EMAIL)) {
-        $_SESSION['login_error'] = "Usuario o contraseña incorrectos.";
+        $_SESSION['login_error'] = "Email inválido.";
         header("Location: login.php");
         exit();
     }
@@ -119,9 +119,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                     <div class="footer-link padding-top--24">
                         <div class="listing padding-top--24 padding-bottom--24 flex-flex center-center">
-                            <!--<span><a href="#">©CreateSystem</a></span>
+                            <span><a href="#">©CreateSystem</a></span>
                             <span><a href="#">contacto</a></span>
-                            <span><a href="#">provacidad & terminos</a></span>-->
+                            <span><a href="#">provacidad & terminos</a></span>
                         </div>
                     </div>
                 </div>
@@ -148,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             });
         });
         </script>";
-        unset($_SESSION['login_error']); //limpia la variable de sesión para que no se muestre de nuevo
+        unset($_SESSION['login_error']); // Limpia la variable de sesión para que no se muestre de nuevo
     }
     ?>
 </body>

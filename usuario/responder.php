@@ -57,12 +57,33 @@
   <link rel="shortcut icon" href="../imagenes/Logo-fis.png">
 
   <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
-  
-
-
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
 
   <link rel="stylesheet" href="../css/main.css">
- 
+
+  <style>
+    body, h1, h2, h3, h4, h5, h6, p, div, span, label, input, select, textarea, button, a {
+      font-family: 'Press Start 2P', monospace !important;
+      font-size: 12px;
+      line-height: 1.4;
+      letter-spacing: 0.5px;
+    }
+    h1, h2, h3 {
+      font-size: 16px;
+      line-height: 1.3;
+    }
+    .card-header {
+      font-size: 10px;
+    }
+    .btn {
+      font-size: 10px;
+      padding: 8px 16px;
+    }
+    input, select, textarea {
+      font-size: 10px;
+      padding: 6px 8px;
+    }
+  </style>
 
   <title>Responder</title>
 </head>
@@ -112,7 +133,6 @@
 			};
 		</script>
 
-			<!--<a href="index.php" class="btn btn-danger btn-lg btn-block">Regresar</a>-->
 		<?php else: ?>
 		<form action="procesar.php" method="Post" autocomplete="off">
 			<input type="hidden" name="public" value="<?php echo $public ? '1' : '0'; ?>" />

@@ -4,10 +4,11 @@ include("../../conexion.php");
 if (isset($_POST['ids'])) {
     $ids = $_POST['ids'];
     if (!is_array($ids)) {
+        // If ids is a string, try to decode JSON
         $ids = json_decode($ids, true);
     }
     if (is_array($ids)) {
-        $ids = array_map('intval', $ids);
+        $ids = array_map('intval', $ids); // sanitize input
 
         if (count($ids) > 0) {
             $ids_list = implode(',', $ids);
