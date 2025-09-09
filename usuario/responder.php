@@ -84,14 +84,22 @@
 			<div class="alert alert-danger" role="alert">
 				<h4 class="alert-heading">Encuesta Cerrada</h4>
 				<p>Lo sentimos, esta encuesta ya no está disponible para responder.</p>
-				<p style="font-size:20px;">Cerrando página automaticamente.</p>
+				<p style="font-size:20px;">Cerrando página automaticamente en <span id="countdown">3</span>...</p>
 			</div>
 			<script>
 
 			window.onload = function() {
-				setTimeout(function() {
-					window.close();
-				}, 3000); //un delay antes de cerrar automaticamente la página
+				let countdownElement = document.getElementById('countdown');
+				let count = 3;
+				let interval = setInterval(function() {
+					count--;
+					if (count <= 0) {
+						clearInterval(interval);
+						window.close();
+					} else {
+						countdownElement.textContent = count;
+					}
+				}, 1000);
 			};
 		</script>
 

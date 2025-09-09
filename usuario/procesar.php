@@ -127,7 +127,7 @@
 				}
 			} else {
 				?>
-				<div style='margin-top: 50px; color: red; font-weight: bold; font-size: 18px;'>
+				<div style='margin-top: 50px; color: #af0007; font-weight: bold; font-size: 18px;'>
 					ERROR!<br/>La encuesta se encuentra cerrada. 
 				</div>
 				<?php
@@ -138,7 +138,7 @@
 
 		<br/>
 <?php if ($public && $row10['estado'] == '1'): ?>
-		<div id="success-message" style="color: green; font-size: 18px; font-weight: bold;">
+		<div id="success-message" style="color: #008aaf; font-size: 18px; font-weight: bold;">
 			¡Encuesta respondida con éxito! Cerrando pestaña en <span id="countdown">3</span>...
 		</div>
 		<script>
