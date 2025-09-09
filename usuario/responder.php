@@ -7,16 +7,28 @@
 	$public = isset($_GET['public']) ? true : false;
 
   	$id_encuesta = $_GET['id_encuesta'];
- 	$query2 = "SELECT * FROM preguntas WHERE id_encuesta = '$id_encuesta'";
-  	$respuesta2 = $con->query($query2);
 
-  	$query3 = "SELECT encuestas.titulo, encuestas.descripcion, preguntas.id_pregunta, preguntas.id_encuesta, preguntas.id_tipo_pregunta, preguntas.limite_opciones
-		FROM preguntas
-		INNER JOIN encuestas
-		ON preguntas.id_encuesta = encuestas.id_encuesta
-		WHERE preguntas.id_encuesta = '$id_encuesta'";
-	$respuesta3 = $con->query($query3);
-	$row3 = $respuesta3->fetch_assoc();
+  	// Check survey status
+  	$query_status = "SELECT titulo, descripcion, estado FROM encuestas WHERE id_encuesta = '$id_encuesta'";
+  	$resultado_status = $con->query($query_status);
+  	$row_status = $resultado_status->fetch_assoc();
+
+  	if ($row_status['estado'] == '0') {
+  		// Survey is closed
+  		$survey_closed = true;
+  	} else {
+  		$survey_closed = false;
+  		$query2 = "SELECT * FROM preguntas WHERE id_encuesta = '$id_encuesta'";
+  		$respuesta2 = $con->query($query2);
+
+  		$query3 = "SELECT encuestas.titulo, encuestas.descripcion, preguntas.id_pregunta, preguntas.id_encuesta, preguntas.id_tipo_pregunta, preguntas.limite_opciones
+			FROM preguntas
+			INNER JOIN encuestas
+			ON preguntas.id_encuesta = encuestas.id_encuesta
+			WHERE preguntas.id_encuesta = '$id_encuesta'";
+		$respuesta3 = $con->query($query3);
+		$row3 = $respuesta3->fetch_assoc();
+  	}
 
 	session_start();
 	if ($public) {
@@ -34,15 +46,14 @@
 <html lang="es">
 <head>
 
-	<!--JQUERY-->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <!-- Required meta tags -->
+  
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <!-- Bootstrap -->
+  
   <link rel="stylesheet" href="../css/bootstrap.min.css">
-  <!-- Favicon -->
+
   <link rel="shortcut icon" href="../imagenes/Logo-fis.png">
 
   <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
@@ -63,12 +74,29 @@
     $is_public = $public;
     require '../navbar.php';
 ?>
-<div class="container">  
+<div class="container">
  	<div class="container text-center" >
- 		<hr /> 
- 		<h1 class="text-info"><?php echo $row3['titulo'] ?></h1>
- 		<p><?php echo $row3['descripcion'] ?></p>
+ 		<hr />
+ 		<h1 class="text-info"><?php echo $row_status['titulo'] ?></h1>
+ 		<p><?php echo $row_status['descripcion'] ?></p>
 
+		<?php if ($survey_closed): ?>
+			<div class="alert alert-danger" role="alert">
+				<h4 class="alert-heading">Encuesta Cerrada</h4>
+				<p>Lo sentimos, esta encuesta ya no está disponible para responder.</p>
+				<p style="font-size:20px;">Cerrando página automaticamente.</p>
+			</div>
+			<script>
+
+			window.onload = function() {
+				setTimeout(function() {
+					window.close();
+				}, 3000); // delay antes de cerrar automaticamente
+			};
+		</script>
+
+			<!--<a href="index.php" class="btn btn-danger btn-lg btn-block">Regresar</a>-->
+		<?php else: ?>
 		<form action="procesar.php" method="Post" autocomplete="off">
 			<input type="hidden" name="public" value="<?php echo $public ? '1' : '0'; ?>" />
 			<?php if ($public): ?>
@@ -131,7 +159,6 @@
 						</select>
 			<?php
 					} elseif ($type == 3) {
-						// Checkbox with limit - square style
 						while (($row = $respuesta->fetch_assoc())) {
 			?>
 						<div class="checkbox" align="left"; style="margin-left: 5%";>
@@ -144,12 +171,10 @@
 			<?php
 						}
 					} elseif ($type == 4) {
-						// Text
 			?>
 						<input type="text" name="<?php echo $row2['id_pregunta'] ?>" class="form-control" placeholder="Ingrese su respuesta" required>
 			<?php
 					} elseif ($type == 5) {
-						// Single option (radio buttons)
 						while (($row = $respuesta->fetch_assoc())) {
 			?>
 						<div class="radio" align="left"; style="margin-left: 5%";>
@@ -180,6 +205,7 @@
 
 
 		<a href="index.php" class="btn btn-danger btn-lg btn-blockimage.png">Regresar</a>
+		<?php endif; ?>
  	</div>
 </div>
 

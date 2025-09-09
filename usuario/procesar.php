@@ -46,7 +46,7 @@
 			exit;
 		}
 
-		// For public surveys, generate a new unique response_id for each submission
+		//para encuestas publicas, generar un nuevo response_id unico para cada envio/encuesta respondida.
 		if ($public) {
 			$response_id = bin2hex(random_bytes(16)); // 32 char hex string
 		}
@@ -66,7 +66,7 @@
 				$query6 = "INSERT INTO usuarios_encuestas (id_usuario, id_encuesta) VALUES ('$id_usuario', '$id_encuesta')";
 				$resultado6 = $con->query($query6);
 			} else {
-				// Insert into responses table for anonymous responses
+				// Insert into tabla 'responses' para usuarios públicos
 				$query_resp = "INSERT INTO responses (id_encuesta, response_id) VALUES ('$id_encuesta', '$response_id')";
 				$resultado_resp = $con->query($query_resp);
 			}
@@ -88,7 +88,7 @@
 									$query3 = "INSERT INTO resultados (id_opcion, id_usuario, response_id) VALUES ('$id_opcion', " . ($id_usuario ? "'$id_usuario'" : "NULL") . ", " . ($response_id ? "'$response_id'" : "NULL") . ")";
 									$resultado3 = $con->query($query3);
 									if ($resultado3) {
-										echo "Resultado ingresado<br/>";
+										//echo "Resultado ingresado<br/>";
 									} else {
 										echo "Error al ingresar resultado<br/>";
 									}
@@ -99,7 +99,7 @@
 							$query3 = "INSERT INTO resultados (id_opcion, id_usuario, response_id) VALUES ('$id_opcion', " . ($id_usuario ? "'$id_usuario'" : "NULL") . ", " . ($response_id ? "'$response_id'" : "NULL") . ")";
 							$resultado3 = $con->query($query3);
 							if ($resultado3) {
-								echo "Resultado ingresado<br/>";
+								//echo "Resultado ingresado<br/>";
 							} else {
 								echo "Error al ingresar resultado<br/>";
 							}
@@ -108,7 +108,7 @@
 							$query_text = "INSERT INTO respuestas_texto (id_pregunta, id_usuario, response_id, respuesta_texto) VALUES ('$id_pregunta', " . ($id_usuario ? "'$id_usuario'" : "NULL") . ", " . ($response_id ? "'$response_id'" : "NULL") . ", '$respuesta_texto')";
 							$resultado_text = $con->query($query_text);
 							if ($resultado_text) {
-								echo "Respuesta de texto ingresada<br/>";
+								//echo "Respuesta de texto ingresada<br/>";
 							} else {
 								echo "Error al ingresar respuesta de texto<br/>";
 							}
@@ -117,7 +117,7 @@
 							$query3 = "INSERT INTO resultados (id_opcion, id_usuario, response_id) VALUES ('$id_opcion', " . ($id_usuario ? "'$id_usuario'" : "NULL") . ", " . ($response_id ? "'$response_id'" : "NULL") . ")";
 							$resultado3 = $con->query($query3);
 							if ($resultado3) {
-								echo "Resultado ingresado<br/>";
+								//echo "Resultado ingresado<br/>";
 							} else {
 								echo "Error al ingresar resultado<br/>";
 							}
@@ -125,14 +125,32 @@
 					}
 				}
 			} else {
-				echo "<div style='margin-top: 50px;'>ERROR!<br/>La encuesta se encuentra cerrada</div>";
+				?>
+				<div style='margin-top: 50px; color: red; font-weight: bold; font-size: 18px;'>
+					ERROR!<br/>La encuesta se encuentra cerrada. 
+				</div>
+				<?php
 			}
 		}
 
 		 ?>
 
 		<br/>
+<?php if ($public && $row10['estado'] == '1'): ?>
+		<div id="success-message" style="color: green; font-size: 18px; font-weight: bold;">
+			¡Encuesta respondida con éxito! Cerrando pestaña...
+		</div>
+		<script>
+
+			window.onload = function() {
+				setTimeout(function() {
+					window.close();
+				}, 2500); // delay antes de cerrar automaticamente
+			};
+		</script>
+<?php elseif (!$public): ?>
 		<a class="btn btn-primary" href="index.php">VOLVER</a>
+<?php endif; ?>
 	</center>
 
  	<script src="../js/jquery-3.3.1.slim.min.js"></script>
