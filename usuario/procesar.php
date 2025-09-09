@@ -46,10 +46,6 @@
 </head>
 <body>
 
-<?php
-    require '../navbar.php';
-?>
-
 	<center>
 		<div style="margin-top: 50px"></div>
 		<?php

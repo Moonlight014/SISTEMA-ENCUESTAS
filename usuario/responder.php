@@ -241,7 +241,7 @@
 		<br>
 
 
-		<a href="index.php" class="btn btn-danger btn-lg btn-blockimage.png">Regresar</a>
+		<!-- <a href="index.php" class="btn btn-danger btn-lg btn-blockimage.png">Regresar</a> -->
 		<?php endif; ?>
  	</div>
 </div>

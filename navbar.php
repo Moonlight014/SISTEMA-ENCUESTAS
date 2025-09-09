@@ -16,7 +16,16 @@
 
 
 <?php
-session_start();
+// Prevent direct access to this file
+if (!defined('INCLUDED_FROM_MAIN') && basename($_SERVER['PHP_SELF']) === 'navbar.php') {
+    header('HTTP/1.0 403 Forbidden');
+    echo 'Direct access to this file is not allowed.';
+    exit();
+}
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 if (!isset($is_public) || !$is_public) {
 ?>
 <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark" style="background-color: #00B8EA;">

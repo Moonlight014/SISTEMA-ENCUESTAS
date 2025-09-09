@@ -43,7 +43,7 @@ while ($row = $resultado->fetch_assoc()) {
                 <td>' . $row["fecha_inicio"] . '</td>
                 <td>' . $row["fecha_final"] . '</td>
                 <td>
-                <a href="mostrar_preguntas.php?id_encuesta=' . $row['id_encuesta'] . '"><button class="btn btn-info type="button">Detalles</button></a>
+                <a href="mostrar_preguntas.php?id_encuesta=' . $row['id_encuesta'] . '"><button class="btn btn-warning">Detalles</button></a>
                     <button id="btnGroupDrop1" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="fa fa-bars fa-lg"></i>
                     </button>

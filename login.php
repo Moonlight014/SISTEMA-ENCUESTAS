@@ -22,12 +22,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: login.php");
         exit();
     }
-    $clave = md5(mysqli_real_escape_string($con, $_POST['clave']));
+    $clave = mysqli_real_escape_string($con, $_POST['clave']);
 
-    $query = "SELECT * FROM usuarios WHERE email = '$id_usuario' AND clave = '$clave'";
+    $query = "SELECT * FROM usuarios WHERE email = '$id_usuario'";
     $resultado = $con->query($query);
 
     if ($row = $resultado->fetch_assoc()) {
+        // Check if password is hashed with password_hash or still using MD5
+        $password_valid = false;
+        if (password_verify($clave, $row['clave'])) {
+            // Password is hashed with password_hash
+            $password_valid = true;
+        } elseif (md5($clave) === $row['clave']) {
+            // Password is still hashed with MD5, update to password_hash
+            $password_valid = true;
+            $new_hash = password_hash($clave, PASSWORD_DEFAULT);
+            $update_query = "UPDATE usuarios SET clave = '$new_hash' WHERE id_usuario = '{$row['id_usuario']}'";
+            $con->query($update_query);
+        }
+
+        if ($password_valid) {
         $_SESSION['id_usuario'] = $row['id_usuario'];
         $_SESSION['u_usuario'] = $row['nombres'];
         $_SESSION['id_tipo_usuario'] = $row['id_tipo_usuario'];
@@ -42,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['login_error'] = "Usuario o contraseña incorrectos.";
         header("Location: login.php");
         exit();
+    }
     }
 }
 ?>
