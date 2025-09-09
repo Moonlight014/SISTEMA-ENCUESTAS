@@ -13,9 +13,11 @@ $data = '
                 <div class="table-responsive">
 
                 
+    <button id="btnEliminarSeleccionados" class="btn btn-danger mb-2" onclick="eliminarEncuestasSeleccionadas()">Eliminar Seleccionados</button>
     <table class="table table-bordered table-hover table-condensed">
         <thead class="thead-light">
             <tr>
+                <th><input type="checkbox" id="selectAll" onclick="toggleSelectAll(this)"></th>
                 <th>ID encuesta</th>
                 <th>Título</th>
                 <th width="100">Descripción</th>
@@ -33,6 +35,7 @@ while ($row = $resultado->fetch_assoc()) {
     $data .= '
         <tbody>
             <tr>
+                <td><input type="checkbox" class="selectEncuesta" value="' . $row["id_encuesta"] . '"></td>
                 <td>' . $row["id_encuesta"] . '</td>
                 <td width="100">' . mb_strimwidth($row['titulo'], 0, 20, "...") . '</a></td>
                 <td width="100">' . mb_strimwidth($row["descripcion"], 0, 20, "...") . '</td>
@@ -44,7 +47,7 @@ while ($row = $resultado->fetch_assoc()) {
                     <button id="btnGroupDrop1" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="fa fa-bars fa-lg"></i>
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                    <div class="dropdown-menu" style="max-height:none; overflow: visible;" aria-labelledby="btnGroupDrop1">
                         <button onclick="obtenerDetallesEncuesta(' . $row['id_encuesta'] . ')" class="dropdown-item btn btn-warning">Modificar</button>
                         <button onclick="eliminarEncuesta(' . $row['id_encuesta'] . ')" class="dropdown-item btn btn-danger">Eliminar</button>
                         <button onclick="publicarEncuesta(' . $row['id_encuesta'] . ')" class="dropdown-item btn btn-primary">Publicar</button>

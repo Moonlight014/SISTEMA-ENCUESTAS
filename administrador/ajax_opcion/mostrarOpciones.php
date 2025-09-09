@@ -16,7 +16,7 @@ $data = '
           <div class="col-12">
             <div class="card shadow-2-strong" style="background-color: #f5f7fa;">
               <div class="card-body">
-                <div class="table-responsive">
+                <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
 
     <table class="table table-bordered table-hover table-condensed">
         <thead class="thead-light">

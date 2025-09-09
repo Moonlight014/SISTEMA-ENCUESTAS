@@ -59,8 +59,8 @@
           <div class="col-md-12">
               <h4>Preguntas:</h4>
               <input type="hidden" id="id_encuesta" value="<?php echo $row['id_encuesta'] ?>">
-              <div class="table-responsive">
-                <div id="tabla_preguntas"></div>  
+              <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
+                <div id="tabla_preguntas"></div>
               </div>
           </div>
       </div>

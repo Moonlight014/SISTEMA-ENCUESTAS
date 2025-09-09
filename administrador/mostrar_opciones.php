@@ -56,7 +56,7 @@ $row = $respuesta->fetch_assoc();
           <div class="col-md-12">
               <h4>Opciones:</h4>
               <input type="hidden" id="id_pregunta" value="<?php echo $row['id_pregunta'] ?>">
-              <div class="table-responsive">
+              <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
                 <div id="tabla_opciones"></div>
               </div>
           </div>

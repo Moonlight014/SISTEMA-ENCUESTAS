@@ -55,7 +55,7 @@
 	    <div class="row">
 	        <div class="col-md-12">
 	         <h4>Encuestas:</h4>
-	         <div class="table-responsive card">
+	         <div class="table-responsive card" style="max-height: 600px; overflow-y: auto;">
 	            <div id="tabla_encuestas"></div>
 	         </div>
 	        </div>

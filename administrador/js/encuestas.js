@@ -59,6 +59,35 @@ function eliminarEncuesta(id_encuesta) {
     }
 }
 
+function eliminarEncuestasSeleccionadas() {
+    var ids = [];
+    $(".selectEncuesta:checked").each(function() {
+        ids.push($(this).val());
+    });
+
+    if (ids.length === 0) {
+        alert("Por favor seleccione al menos una encuesta para eliminar.");
+        return;
+    }
+
+    var conf = confirm("¿Está seguro de eliminar las encuestas seleccionadas?");
+    if (!conf) return;
+
+    $.post("ajax_encuesta/eliminarEncuestas.php", {ids: ids}, function(response) {
+        var res = JSON.parse(response);
+        if (res.status === "success") {
+            alert(res.message);
+            mostrarEncuestas();
+        } else {
+            alert("Error: " + res.message);
+        }
+    });
+}
+
+function toggleSelectAll(source) {
+    $(".selectEncuesta").prop('checked', source.checked);
+}
+
 // Publicar encuesta
 function publicarEncuesta(id_encuesta) {
     var conf = confirm("Estas seguro de publicar la Encuesta");
