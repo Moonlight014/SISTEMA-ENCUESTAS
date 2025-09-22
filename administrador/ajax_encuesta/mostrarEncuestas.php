@@ -28,6 +28,8 @@ $data = '
             </tr>
         </thead>';
 
+
+//consulta para mostrar las encuestas y generar link público. 
 $query = "SELECT * FROM encuestas ORDER BY id_encuesta DESC";
 $resultado = $con->query($query);
 

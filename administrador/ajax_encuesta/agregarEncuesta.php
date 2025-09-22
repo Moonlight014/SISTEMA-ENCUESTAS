@@ -7,7 +7,7 @@ if (isset($_POST['id_usuario']) && isset($_POST['titulo']) && isset($_POST['desc
     // Establecemos la zona horario
     date_default_timezone_set("America/Lima");
   	$date = new DateTime();
-  	$fecha_inicio = $date->format('Y-m-d H:i:s');
+  	$fecha_inicio = $_POST['fecha_final'];
 
     // Obtener valores
     $id_usuario  = $_POST['id_usuario'];
@@ -19,5 +19,12 @@ if (isset($_POST['id_usuario']) && isset($_POST['titulo']) && isset($_POST['desc
               VALUES ('$id_usuario', '$titulo', '$descripcion', '0', '$fecha_inicio', '$fecha_final')";
 
     $resultado = $con->query($query);
+
+    if ($resultado) {
+        $id_encuesta = $con->insert_id;
+        echo json_encode(array('status' => 'success', 'id_encuesta' => $id_encuesta, 'message' => 'Encuesta agregada correctamente.'));
+    } else {
+        echo json_encode(array('status' => 'error', 'message' => 'Error al agregar la encuesta: ' . $con->error));
+    }
 
 }

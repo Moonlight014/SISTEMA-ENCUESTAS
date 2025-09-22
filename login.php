@@ -48,8 +48,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($row['id_tipo_usuario'] == '1') {
             header("Location: administrador/index.php");
             exit();
-        } elseif ($row['id_tipo_usuario'] == '2') {
-            header("Location: usuario/index.php");
+        } else {
+            $_SESSION['login_error'] = "Solo los administradores pueden iniciar sesión.";
+            header("Location: login.php");
             exit();
         }
     } else {

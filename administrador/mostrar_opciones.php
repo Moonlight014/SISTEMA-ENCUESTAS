@@ -68,7 +68,7 @@ $row = $respuesta->fetch_assoc();
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="../js/jquery-3.3.1.min.js"></script>
+  <script src="../js/jquery.min.js"></script>
   <script src="../js/popper.min.js"></script>
   <script src="../js/bootstrap.min.js"></script>
   <script src="js/opciones.js"></script>
@@ -90,12 +90,10 @@ $row = $respuesta->fetch_assoc();
             </div>
 
             <div class="modal-body">
-              <div class="form-group row">
-                <label for="valor" class="col-sm-3 col-form-label">Valor</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="valor" placeholder="Valor" autocomplete="off" autofocus>
-                </div>
-              </div>         
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="valor" placeholder="Valor" autocomplete="off" autofocus>
+                <label for="valor">Valor</label>
+              </div>
             </div>
 
             <div class="modal-footer">
@@ -120,12 +118,10 @@ $row = $respuesta->fetch_assoc();
             </div>
 
             <div class="modal-body">
-              <div class="form-group row">
-                <label for="modificar_valor" class="col-sm-3 col-form-label">Valor</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="modificar_valor" placeholder="Valor">
-                </div>
-              </div>           
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="modificar_valor" placeholder="Valor">
+                <label for="modificar_valor">Valor</label>
+              </div>
             </div>
 
             <div class="modal-footer">

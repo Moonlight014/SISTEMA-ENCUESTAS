@@ -1,0 +1,4 @@
+- [x] Update administrador/modals/agregar_encuesta.php to use form-floating for titulo, descripcion, fecha_final
+- [x] Update administrador/modals/modificar_encuesta.php to use form-floating for titulo, descripcion, fecha_final
+- [x] Update administrador/mostrar_preguntas.php to use form-floating for question forms
+- [x] Update administrador/mostrar_opciones.php to use form-floating for option forms

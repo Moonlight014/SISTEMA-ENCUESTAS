@@ -40,7 +40,7 @@
 <body>
 
 <?php
-    require '../navbar.php';
+    require '../includes/navbar.php';
     if (isset($_GET['error'])) {
       echo '<div class="alert alert-danger text-center">Usuario o contraseña incorrectos.</div>';
     }
@@ -68,127 +68,18 @@
 	            <div class="table-responsive" style="max-height: 700px; overflow-y: auto;">
 	            	<div id="tabla_encuestas"></div>
 	            <br/>
-	            <!--<div>
-	                <h5>Generar enlace público para encuestas:</h5>
-	                <ul>
-<?php
-
-include '../conexion.php';
-$result = $con->query("SELECT id_encuesta, titulo FROM encuestas");
-while ($row = $result->fetch_assoc()) {
-    $id_encuesta = $row['id_encuesta'];
-    $titulo = htmlspecialchars($row['titulo']);
-    $public_link = "http://localhost:8000/usuario/responder.php?id_encuesta=$id_encuesta&public=1";
-    echo "<li><strong>$titulo</strong>: <a href='$public_link' target='_blank'>$public_link</a></li>";
-}
-?>
-	                </ul>
-	            </div>-->
 	        </div>
 	    </div>
 	</div>
-  
 
+<?php include 'modals/agregar_encuesta.php'; ?>
 
+<?php include 'modals/modificar_encuesta.php'; ?>
 
-  <script src="../js/jquery-3.3.1.min.js"></script>
-  <script src="../js/popper.min.js"></script>
-  <script src="../js/bootstrap.min.js"></script>
-  <script src="js/encuestas.js"></script>
+<script src="/php/SISTEMA_ENCUESTAS/js/jquery.min.js"></script>
+<script src="/php/SISTEMA_ENCUESTAS/js/popper.min.js"></script>
+<script src="/php/SISTEMA_ENCUESTAS/js/bootstrap.min.js"></script>
+<script src="/php/SISTEMA_ENCUESTAS/administrador/js/encuestas.js"></script>
 
 </body>
 </html>
-
-
-<div class="modal fade" id="modal_agregar" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-            <div class="modal-header">
-            	<h4 class="modal-title">Agregar Nueva Encuesta</h4>
-                <button type="button" class="close" data-dismiss="modal">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body">
-
-            	<div class="form-group row">
-      					<label for="titulo" class="col-sm-3 col-form-label">Título</label>
-      					<div class="col-sm-9">
-      						<input type="text" class="form-control" id="titulo" placeholder="Título" autocomplete="off" autofocus>
-      					</div>
-      				</div>
-              <div class="form-group row">
-                <label for="descripcion" class="col-sm-3 col-form-label">Descripción</label>
-                <div class="col-sm-9">
-                  <textarea class="form-control" id="descripcion" placeholder="Descripción"></textarea>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="fecha_final" class="col-sm-3 col-form-label">Fecha Final</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="fecha_final" value="<?php echo $fecha_inicio ?>"  autocomplete="off">
-                  <p>Fomato: año-mes-día horas:minutos:segundos</p>
-                </div>
-              </div>
-
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" onclick="agregarEncuesta()">Agregar Encuesta</button>
-                <input type="hidden" id="hidden_id_usuario" value="<?php echo $_SESSION['id_usuario'] ?>">
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<div class="modal fade " id="modal_modificar" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-
-            <div class="modal-header">
-            	<h4 class="modal-title">Modificar Producto</h4>
-                <button type="button" class="close" data-dismiss="modal">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body">
-
-            	<div class="form-group row">
-      					<label for="modificar_titulo" class="col-sm-3 col-form-label">Título</label>
-      					<div class="col-sm-9">
-      						<input type="text" class="form-control" id="modificar_titulo" placeholder="Título">
-      					</div>
-      				</div>
-
-              <div class="form-group row">
-                <label for="descripcion" class="col-sm-3 col-form-label">Descripción</label>
-                <div class="col-sm-9">
-                  <textarea class="form-control" id="modificar_descripcion" placeholder="Descripción"></textarea>
-                </div>
-              </div>
-
-              <div class="form-group row">
-                <label for="fecha_final" class="col-sm-3 col-form-label">Fecha Final</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="modificar_fecha_final" placeholder="Fecha de Cierre" autocomplete="off"
-                  value="<?php echo $fecha_inicio ?>">
-                  <p>Fomato: año-mes-día horas:minutos:segundos</p>
-                </div>
-              </div>
-
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" onclick="modificarDetallesEncuesta()">Modificar Encuesta</button>
-                <input type="hidden" id="hidden_id_encuesta">
-            </div>
-
-        </div>
-    </div>
-</div>

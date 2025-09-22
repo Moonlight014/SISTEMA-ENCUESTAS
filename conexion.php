@@ -3,7 +3,7 @@
 $servername = "localhost";
 $username = "DAS";
 $password = "das1324.";
-$dbname = "sistema_encuestas";
+$dbname = "sistema_encuesta";
 
 // Creamos la conexión
 $con = new mysqli($servername, $username, $password, $dbname);
